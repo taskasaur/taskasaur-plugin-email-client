@@ -1,0 +1,128 @@
+{
+  "id": "email-client",
+  "name": "Email Client",
+  "description": "Mail accounts, mailbox sync, drafts, attachments, and send/receive.",
+  "version": "1.0.0",
+  "platformApi": "^1.0.0",
+  "fieldSchemaApi": "^1.0.0",
+  "publisher": "taskasaur",
+  "license": "GPL-3.0-only",
+  "entrypoints": {
+    "browser": "browser.mjs",
+    "server": "server.mjs"
+  },
+  "ui": {
+    "mode": "shared",
+    "apiVersion": "^1.0.0",
+    "surfaces": ["email-client"]
+  },
+  "storage": {
+    "local": {
+      "mode": "dexie",
+      "collections": ["mail_accounts", "mail", "mailboxes", "mail_operations"]
+    }
+  },
+  "permissions": ["email-client.read", "email-client.write"],
+  "dependencies": [],
+  "features": {
+    "attachments": {
+      "defaultEnabled": false
+    },
+    "notifications": {
+      "defaultEnabled": false
+    },
+    "taskLinks": {
+      "defaultEnabled": false
+    }
+  },
+  "sharedServices": [
+    {
+      "id": "core.records",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "credentials.use",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "files.access",
+      "version": "^1",
+      "optional": false,
+      "when": "attachments"
+    },
+    {
+      "id": "core.jobs",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "core.ui",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "core.workspace",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "core.server",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "core.sync",
+      "version": "^1",
+      "optional": false
+    },
+    {
+      "id": "core.storage.local",
+      "version": "^1",
+      "optional": false
+    }
+  ],
+  "provides": {
+    "commands": [
+      "mail_accounts.list",
+      "mail_accounts.put",
+      "mail_accounts.delete",
+      "mail.list",
+      "mail.put",
+      "mail.delete",
+      "mailboxes.list",
+      "mailboxes.put",
+      "mailboxes.delete",
+      "mail_operations.list",
+      "mail_operations.put",
+      "mail_operations.delete",
+      "mail.sync",
+      "mail.read",
+      "mail.send",
+      "mail.applyOperation",
+      "mail.folders"
+    ],
+    "events": [
+      "mail_accounts.changed",
+      "mail.changed",
+      "mailboxes.changed",
+      "mail_operations.changed"
+    ]
+  },
+  "consumes": {
+    "commands": ["files.list", "files.put", "files.delete"],
+    "events": []
+  },
+  "server": {
+    "routes": [
+      {
+        "path": "mail/*",
+        "methods": ["POST"],
+        "authentication": "workspace"
+      }
+    ],
+    "background": true,
+    "mutationHooks": false
+  }
+}

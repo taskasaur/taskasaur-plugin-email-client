@@ -1,0 +1,32 @@
+{
+  "name": "@taskasaur/plugin-email-client",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dompurify": "3.4.16",
+    "imapflow": "2.2.1",
+    "lucide-react": "^0.511.0",
+    "mailparser": "3.9.33",
+    "nodemailer": "10.0.13"
+  },
+  "devDependencies": {
+    "@taskasaur/platform": "file:vendor/taskasaur-platform-0.3.0.tgz",
+    "@types/mailparser": "3.4.6",
+    "@types/node": "^24.0.1",
+    "@types/nodemailer": "7.0.11",
+    "@types/react": "^19.1.0",
+    "dexie-react-hooks": "4.4.0",
+    "esbuild": "0.25.12",
+    "react": "^19.1.0",
+    "typescript": "^5.9.3"
+  }
+}

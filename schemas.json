@@ -1,0 +1,421 @@
+[
+  {
+    "id": "mail_accounts",
+    "pluginId": "email-client",
+    "name": "Mail accounts",
+    "version": 1,
+    "fields": [
+      {
+        "id": "name",
+        "label": "Name",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "address",
+        "label": "Email",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "control": "email",
+        "sensitive": false
+      },
+      {
+        "id": "credential_id",
+        "label": "Credential",
+        "pgType": "uuid",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false,
+        "reference": "credentials",
+        "control": "reference"
+      },
+      {
+        "id": "imap_host",
+        "label": "IMAP host",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "imap_port",
+        "label": "IMAP port",
+        "pgType": "integer",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "min": 1,
+        "max": 65535,
+        "default": 993,
+        "sensitive": false
+      },
+      {
+        "id": "smtp_host",
+        "label": "SMTP host",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "smtp_port",
+        "label": "SMTP port",
+        "pgType": "integer",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "min": 1,
+        "max": 65535,
+        "default": 465,
+        "sensitive": false
+      },
+      {
+        "id": "smtp_security",
+        "label": "SMTP security",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "choices": ["tls", "starttls"],
+        "default": "tls",
+        "control": "select",
+        "sensitive": false
+      }
+    ]
+  },
+  {
+    "id": "mail",
+    "pluginId": "email-client",
+    "name": "Mail",
+    "version": 1,
+    "fields": [
+      {
+        "id": "account_id",
+        "label": "Account",
+        "pgType": "uuid",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false,
+        "reference": "mail_accounts",
+        "control": "reference"
+      },
+      {
+        "id": "mailbox",
+        "label": "Mailbox",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "default": "INBOX",
+        "sensitive": false
+      },
+      {
+        "id": "subject",
+        "label": "Subject",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "from",
+        "label": "From",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "to",
+        "label": "To",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": true,
+        "default": [],
+        "sensitive": false
+      },
+      {
+        "id": "cc",
+        "label": "Cc",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": true,
+        "default": [],
+        "sensitive": false
+      },
+      {
+        "id": "bcc",
+        "label": "Bcc",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": true,
+        "default": [],
+        "sensitive": false
+      },
+      {
+        "id": "body",
+        "label": "Message",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "control": "textarea",
+        "sensitive": false
+      },
+      {
+        "id": "html",
+        "label": "HTML",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "message_id",
+        "label": "Message ID",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "provider_uid",
+        "label": "Provider UID",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "uid_validity",
+        "label": "UID validity",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "received_at",
+        "label": "Received",
+        "pgType": "timestamp with time zone",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "choices": [
+          "draft",
+          "queued",
+          "sending",
+          "sent",
+          "received",
+          "failed",
+          "unknown"
+        ],
+        "default": "draft",
+        "control": "select",
+        "sensitive": false
+      },
+      {
+        "id": "read",
+        "label": "Read",
+        "pgType": "boolean",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "default": false,
+        "sensitive": false
+      },
+      {
+        "id": "flags",
+        "label": "Flags",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": true,
+        "default": [],
+        "sensitive": false
+      },
+      {
+        "id": "in_reply_to",
+        "label": "Reply to Message-ID",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "references",
+        "label": "Thread references",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": true,
+        "default": [],
+        "sensitive": false
+      },
+      {
+        "id": "send_operation_id",
+        "label": "Send operation",
+        "pgType": "uuid",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "provider_deleted",
+        "label": "Removed from mailbox",
+        "pgType": "boolean",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "default": false,
+        "sensitive": false
+      },
+      {
+        "id": "attachments",
+        "label": "Attachments",
+        "pgType": "jsonb",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "default": [],
+        "sensitive": false
+      }
+    ]
+  },
+  {
+    "id": "mailboxes",
+    "pluginId": "email-client",
+    "name": "Mailboxes",
+    "version": 1,
+    "fields": [
+      {
+        "id": "account_id",
+        "label": "Account",
+        "pgType": "uuid",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "control": "reference",
+        "reference": "mail_accounts",
+        "sensitive": false
+      },
+      {
+        "id": "name",
+        "label": "Name",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "path",
+        "label": "Path",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "special_use",
+        "label": "Special use",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      }
+    ]
+  },
+  {
+    "id": "mail_operations",
+    "pluginId": "email-client",
+    "name": "Mailbox operations",
+    "version": 1,
+    "fields": [
+      {
+        "id": "message_id",
+        "label": "Message",
+        "pgType": "uuid",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "control": "reference",
+        "reference": "mail",
+        "sensitive": false
+      },
+      {
+        "id": "operation",
+        "label": "Operation",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "choices": ["read", "unread", "flag", "unflag", "move"],
+        "default": "read",
+        "control": "select",
+        "sensitive": false
+      },
+      {
+        "id": "mailbox",
+        "label": "Destination mailbox",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      },
+      {
+        "id": "status",
+        "label": "Status",
+        "pgType": "text",
+        "required": true,
+        "nullable": false,
+        "array": false,
+        "choices": ["queued", "completed", "failed"],
+        "default": "queued",
+        "control": "select",
+        "sensitive": false
+      },
+      {
+        "id": "error",
+        "label": "Error",
+        "pgType": "text",
+        "required": false,
+        "nullable": true,
+        "array": false,
+        "sensitive": false
+      }
+    ]
+  }
+]
